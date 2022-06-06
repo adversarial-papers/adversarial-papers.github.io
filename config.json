@@ -1,0 +1,597 @@
+[
+    {
+        "submission_name": "Adversarial Examples for Proof-of-Learning",
+        "arxiv_id": "2108.09454",
+        "target_reviewer": {
+            "select": "Nicolas Papernot, Battista Biggio, Feargus Pendlebury, Florian Tram?r, Abhradeep Guha Thakurta",
+            "reject": ""
+        },
+        "adversarial_ranking": [
+            [
+                "Nicolas Papernot",
+                "1.00",
+                "^"
+            ],
+            [
+                "Florian Tram?r",
+                "0.95",
+                "^"
+            ],
+            [
+                "Abhradeep Guha Thakurta",
+                "0.94",
+                "^"
+            ],
+            [
+                "Feargus Pendlebury",
+                "0.93",
+                "^"
+            ],
+            [
+                "Battista Biggio",
+                "0.93",
+                "^"
+            ],
+            [
+                "Pardis Emami-naeini",
+                "0.92",
+                ""
+            ],
+            [
+                "Mario Fritz",
+                "0.90",
+                ""
+            ],
+            [
+                "Neil Gong",
+                "0.90",
+                ""
+            ],
+            [
+                "Fabio Pierazzi",
+                "0.88",
+                ""
+            ],
+            [
+                "Ariel Herbert-voss",
+                "0.83",
+                ""
+            ]
+        ],
+        "initial_ranking": [
+            [
+                "Nicolas Papernot",
+                "1.00",
+                "^"
+            ],
+            [
+                "Mario Fritz",
+                "1.00",
+                ""
+            ],
+            [
+                "Fabio Pierazzi",
+                "0.87",
+                ""
+            ],
+            [
+                "Battista Biggio",
+                "0.85",
+                "^"
+            ],
+            [
+                "Nicholas Carlini",
+                "0.79",
+                ""
+            ],
+            [
+                "Feargus Pendlebury",
+                "0.78",
+                "^"
+            ],
+            [
+                "Florian Tram?r",
+                "0.71",
+                "^"
+            ],
+            [
+                "Ariel Herbert-voss",
+                "0.61",
+                ""
+            ],
+            [
+                "Neil Gong",
+                "0.58",
+                ""
+            ],
+            [
+                "Abhradeep Guha Thakurta",
+                "0.54",
+                "^"
+            ]
+        ],
+        "l1": "2454",
+        "linf": "78",
+        "transformations": "Hidden Box",
+        "files": {
+            "adversarial_pdf": "adversarial.tex",
+            "clean": "adversarial.text"
+        }
+    },
+    {
+        "submission_name": "SAILFISH: Vetting Smart Contract State-Inconsistency Bugs in Seconds",
+        "arxiv_id": "2104.08638",
+        "target_reviewer": {
+            "select": "Lucas Davi",
+            "reject": "Arthur Gervais, Yajin Zhou"
+        },
+        "adversarial_ranking": [
+            [
+                "Jun Xu",
+                "1.00",
+                ""
+            ],
+            [
+                "Lucas Davi",
+                "1.00",
+                "^"
+            ],
+            [
+                "Stefan Brunthaler",
+                "0.98",
+                ""
+            ],
+            [
+                "Tiffany Bao",
+                "0.96",
+                ""
+            ],
+            [
+                "Gang Tan",
+                "0.95",
+                ""
+            ],
+            [
+                "Arthur Gervais",
+                "0.89",
+                "v"
+            ],
+            [
+                "Yan Shoshitaishvili",
+                "0.77",
+                ""
+            ],
+            [
+                "Fraser Brown",
+                "0.76",
+                ""
+            ],
+            [
+                "Herbert Bos",
+                "0.73",
+                ""
+            ],
+            [
+                "Johannes Kinder",
+                "0.71",
+                ""
+            ]
+        ],
+        "initial_ranking": [
+            [
+                "Arthur Gervais",
+                "1.00",
+                "v"
+            ],
+            [
+                "Tiffany Bao",
+                "0.67",
+                ""
+            ],
+            [
+                "Johannes Kinder",
+                "0.65",
+                ""
+            ],
+            [
+                "Jun Xu",
+                "0.63",
+                ""
+            ],
+            [
+                "Yajin Zhou",
+                "0.59",
+                "v"
+            ],
+            [
+                "Antonio Bianchi",
+                "0.58",
+                ""
+            ],
+            [
+                "Fraser Brown",
+                "0.57",
+                ""
+            ],
+            [
+                "Yan Shoshitaishvili",
+                "0.57",
+                ""
+            ],
+            [
+                "Marco Guarnieri",
+                "0.55",
+                ""
+            ],
+            [
+                "Lucas Davi",
+                "0.55",
+                "^"
+            ]
+        ],
+        "l1": "997",
+        "linf": "54",
+        "transformations": "Hidden Box",
+        "files": {
+            "adversarial_pdf": "adversarial.tex",
+            "clean": "adversarial.text"
+        }
+    },
+    {
+        "submission_name": "Repairing DoS Vulnerability of Real-World Regexes",
+        "arxiv_id": "2010.12450",
+        "target_reviewer": {
+            "select": "Markulf Kohlweiss",
+            "reject": "Antonio Bianchi"
+        },
+        "adversarial_ranking": [
+            [
+                "Tiffany Bao",
+                "1.00",
+                ""
+            ],
+            [
+                "Markulf Kohlweiss",
+                "0.86",
+                "^"
+            ],
+            [
+                "Fraser Brown",
+                "0.77",
+                ""
+            ],
+            [
+                "Tamara Rezk",
+                "0.74",
+                ""
+            ],
+            [
+                "Andrew Myers",
+                "0.70",
+                ""
+            ],
+            [
+                "Limin Jia",
+                "0.70",
+                ""
+            ],
+            [
+                "Giulio Malavolta",
+                "0.69",
+                ""
+            ],
+            [
+                "Antonio Bianchi",
+                "0.69",
+                "v"
+            ],
+            [
+                "Eric Bodden",
+                "0.65",
+                ""
+            ],
+            [
+                "Gilles Barthe",
+                "0.65",
+                ""
+            ]
+        ],
+        "initial_ranking": [
+            [
+                "Tiffany Bao",
+                "1.00",
+                ""
+            ],
+            [
+                "Antonio Bianchi",
+                "0.71",
+                "v"
+            ],
+            [
+                "Fraser Brown",
+                "0.69",
+                ""
+            ],
+            [
+                "Tamara Rezk",
+                "0.66",
+                ""
+            ],
+            [
+                "Eric Bodden",
+                "0.60",
+                ""
+            ],
+            [
+                "Yan Shoshitaishvili",
+                "0.59",
+                ""
+            ],
+            [
+                "Brendan Saltaformaggio",
+                "0.59",
+                ""
+            ],
+            [
+                "Markulf Kohlweiss",
+                "0.58",
+                "^"
+            ],
+            [
+                "Limin Jia",
+                "0.57",
+                ""
+            ],
+            [
+                "Stefan Brunthaler",
+                "0.57",
+                ""
+            ]
+        ],
+        "l1": "1661",
+        "linf": "58",
+        "transformations": "Synonym, GPT-2 text, Reference addition, Spelling mistake",
+        "files": {
+            "adversarial_pdf": "adversarial.tex",
+            "clean": "adversarial.text"
+        }
+    },
+    {
+        "submission_name": "Anti-Tamper Radio: System-Level Tamper Detection for Computing Systems",
+        "arxiv_id": "2112.09014",
+        "target_reviewer": {
+            "select": "",
+            "reject": "Wenyuan Xu"
+        },
+        "adversarial_ranking": [
+            [
+                "Elissa Redmiles",
+                "1.00",
+                ""
+            ],
+            [
+                "Tobias Fiebig",
+                "0.97",
+                ""
+            ],
+            [
+                "Alice Hutchings",
+                "0.89",
+                ""
+            ],
+            [
+                "Yasemin Acar",
+                "0.81",
+                ""
+            ],
+            [
+                "Iulia Ion",
+                "0.80",
+                ""
+            ],
+            [
+                "Wenyuan Xu",
+                "0.80",
+                "v"
+            ],
+            [
+                "Katharina Krombholz",
+                "0.79",
+                ""
+            ],
+            [
+                "Christina Poepper",
+                "0.78",
+                ""
+            ],
+            [
+                "Yossi Oren",
+                "0.72",
+                ""
+            ],
+            [
+                "Emily Stark",
+                "0.72",
+                ""
+            ]
+        ],
+        "initial_ranking": [
+            [
+                "Wenyuan Xu",
+                "1.00",
+                "v"
+            ],
+            [
+                "Elissa Redmiles",
+                "0.97",
+                ""
+            ],
+            [
+                "Christina Poepper",
+                "0.97",
+                ""
+            ],
+            [
+                "Tobias Fiebig",
+                "0.94",
+                ""
+            ],
+            [
+                "Yossi Oren",
+                "0.91",
+                ""
+            ],
+            [
+                "Christian Wachsmann",
+                "0.90",
+                ""
+            ],
+            [
+                "Alice Hutchings",
+                "0.86",
+                ""
+            ],
+            [
+                "Iulia Ion",
+                "0.84",
+                ""
+            ],
+            [
+                "Katharina Krombholz",
+                "0.82",
+                ""
+            ],
+            [
+                "Yasemin Acar",
+                "0.79",
+                ""
+            ]
+        ],
+        "l1": "252",
+        "linf": "8",
+        "transformations": "Synonym, GPT-2 text, Reference addition",
+        "files": {
+            "adversarial_pdf": "adversarial.tex",
+            "clean": "adversarial.text"
+        }
+    },
+    {
+        "submission_name": "Statistical Quantification of Differential Privacy: A Local Approach",
+        "arxiv_id": "2108.09528",
+        "target_reviewer": {
+            "select": "Mario Fritz",
+            "reject": ""
+        },
+        "adversarial_ranking": [
+            [
+                "Abhradeep Guha Thakurta",
+                "1.00",
+                ""
+            ],
+            [
+                "Jeremiah Blocki",
+                "0.74",
+                ""
+            ],
+            [
+                "Nicolas Papernot",
+                "0.70",
+                ""
+            ],
+            [
+                "Mathias Lecuyer",
+                "0.65",
+                ""
+            ],
+            [
+                "Mario Fritz",
+                "0.63",
+                "^"
+            ],
+            [
+                "Ninghui Li",
+                "0.61",
+                ""
+            ],
+            [
+                "Adria Gascon",
+                "0.59",
+                ""
+            ],
+            [
+                "Ariel Herbert-voss",
+                "0.45",
+                ""
+            ],
+            [
+                "Neil Gong",
+                "0.44",
+                ""
+            ],
+            [
+                "Battista Biggio",
+                "0.41",
+                ""
+            ]
+        ],
+        "initial_ranking": [
+            [
+                "Abhradeep Guha Thakurta",
+                "1.00",
+                ""
+            ],
+            [
+                "Jeremiah Blocki",
+                "0.77",
+                ""
+            ],
+            [
+                "Ninghui Li",
+                "0.62",
+                ""
+            ],
+            [
+                "Adria Gascon",
+                "0.60",
+                ""
+            ],
+            [
+                "Mathias Lecuyer",
+                "0.60",
+                ""
+            ],
+            [
+                "Nicolas Papernot",
+                "0.49",
+                ""
+            ],
+            [
+                "Mario Fritz",
+                "0.44",
+                "^"
+            ],
+            [
+                "Vincent Bindschaedler",
+                "0.39",
+                ""
+            ],
+            [
+                "Ariel Herbert-voss",
+                "0.39",
+                ""
+            ],
+            [
+                "Olya Ohrimenko",
+                "0.38",
+                ""
+            ]
+        ],
+        "l1": "694",
+        "linf": "14",
+        "transformations": "Synonym, Reference addition",
+        "files": {
+            "adversarial_pdf": "adversarial.tex",
+            "clean": "adversarial.text"
+        }
+    }
+]

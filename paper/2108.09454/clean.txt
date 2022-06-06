@@ -1,0 +1,1538 @@
+\newif\ifshaphered
+
+\ifdefined\isshaphered
+\shapheredtrue
+\fi
+
+
+
+\documentclass[conference]{IEEEtran}
+
+
+\IEEEoverridecommandlockouts
+\usepackage{datetime}
+\usepackage{authblk}
+
+\ifCLASSOPTIONcompsoc
+\usepackage[nocompress]{cite}
+\else
+\usepackage{cite}
+\fi
+
+
+\ifshaphered
+\usepackage{longtable}
+\newcommand\revision[1]{#1}
+\newcommand{\on}[2]{{\textcolor{red}{#1}} \textcolor{blue}{#2}}
+\newcommand\revisionminor[1]{\textcolor{blue}{#1}}
+\else
+\newcommand\revision[1]{#1}
+\newcommand{\on}[2]{#2}
+\newcommand\revisionminor[1]{#1}
+\fi
+
+\newcommand*{\textlabel}[2]{\edef\@currentlabel{#1}\phantomsection #1\label{#2}}\usepackage{hyperref}
+
+
+\usepackage[english]{babel}
+\usepackage{blindtext}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts} 
+\usepackage{fontawesome}
+\usepackage{amssymb}
+\usepackage[ruled,lined]{algorithm2e} \usepackage{soul}
+\usepackage{algorithmic}
+\usepackage{setspace}
+\usepackage{graphicx}
+
+\usepackage{booktabs}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+
+\usetikzlibrary{decorations.pathreplacing, automata}
+\usetikzlibrary{arrows}
+\usepackage{amsmath}
+\usepackage{pifont}
+\newcommand{\xmark}{\text{\ding{55}}}
+\usetikzlibrary{shapes}
+\makeatletter
+\tikzset{circle split part fill/.style args={#1,#2}{alias=tmp@name, postaction={insert path={
+     \pgfextra{\pgfpointdiff{\pgfpointanchor{\pgf@node@name}{center}}{\pgfpointanchor{\pgf@node@name}{east}}\pgfmathsetmacro\insiderad{\pgf@x}
+\fill[#1] (\pgf@node@name.base) ([xshift=-\pgflinewidth]\pgf@node@name.east) arc
+                          (0:180:\insiderad-\pgflinewidth)--cycle;
+      \fill[#2] (\pgf@node@name.base) ([xshift=\pgflinewidth]\pgf@node@name.west)  arc
+                           (180:360:\insiderad-\pgflinewidth)--cycle;            }}}}}
+\usetikzlibrary{spy}
+\usetikzlibrary{arrows}
+\usepackage{amsmath}
+\usepackage{pifont}
+
+\usepackage{siunitx}
+\usepackage{amsthm}
+\usepackage{thmtools,thm-restate}
+\newtheorem{corollary}{Corollary}
+\usepackage{mdframed}
+
+\usepackage{subfigure}
+
+
+\usepackage{enumitem}
+\setlist[enumerate]{noitemsep, topsep=2pt}
+\setlist[itemize]{noitemsep, topsep=2pt}
+\setlist[description]{noitemsep, topsep=2pt, font=\normalfont\space}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.15} 
+\pgfplotsset{axis line origin/.style args={#1,#2}{
+        x filter/.append code={ \ifx\pgfmathresult\empty\else\pgfmathparse{\pgfmathresult-#1}\fi
+        },
+        y filter/.append code={
+            \ifx\pgfmathresult\empty\else\pgfmathparse{\pgfmathresult-#2}\fi
+        },
+        xticklabel=\pgfmathparse{\tick+#1}\pgfmathprintnumber{\pgfmathresult},
+        yticklabel=\pgfmathparse{\tick+#2}\pgfmathprintnumber{\pgfmathresult}
+    }
+}
+\usepackage{xspace}
+\usepackage{numprint}
+
+
+\npthousandsep{,} \newif\ifshowcomment
+\showcommentfalse
+
+
+
+
+\newcommand{\VC}{\mathcal{VC}\xspace}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+
+
+\newcommand{\Prov}{\mathcal{T}\xspace}
+\newcommand{\Verif}{\mathcal{V}\xspace}
+\newcommand{\Adv}{\mathcal{A}\xspace}
+\newcommand{\Proof}{\mathcal{P}\xspace}
+
+\newcommand{\WWW}{\mathbb{W}\xspace}
+\newcommand{\III}{\mathbb{I}\xspace}
+\newcommand{\HHH}{\mathbb{H}\xspace}
+\newcommand{\AAA}{\mathbb{A}\xspace}
+
+\newcommand{\XX}{\mathbf{X}\xspace}
+\newcommand{\xx}{\mathbf{x}\xspace}
+\newcommand{\yy}{\mathbf{y}\xspace}
+\newcommand{\RR}{\mathbf{R}\xspace}
+
+
+\newcommand{\fig}{\textrm{Figure}\xspace}
+
+
+
+\newcommand{\Paragraph}[1]{~\vspace*{-0.8\baselineskip}\\{\bf #1}}
+ 
+
+
+
+
+
+
+
+\newcommand{\todo}[1]{\textsf{\color{red}{[{TODO: #1}]}}}
+
+
+\IEEEoverridecommandlockouts
+
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+\begin{document}
+
+\title{``Adversarial Examples'' for Proof-of-Learning}
+
+
+
+
+
+
+
+\author{Rui Zhang}
+\author{Jian Liu\thanks{\IEEEauthorrefmark{1}Jian Liu is the corresponding author.}\IEEEauthorrefmark{1}}
+\author{Yuan Ding}
+\author{Qingbiao Wu}
+\author{Kui Ren}
+\affil{Zhejiang University \authorcr Email: {\tt \{zhangrui98, liujian2411, dy1ant, qbwu, kuiren \}@zju.edu.cn}\vspace{1.5ex}}
+
+
+\maketitle
+
+
+\begin{abstract}
+In S\&P '21, Jia et al. proposed a new concept/mechanism named proof-of-learning (PoL), which allows a prover to demonstrate ownership of a machine learning model by  proving integrity of the training procedure.
+It guarantees that an adversary cannot construct a valid proof with less cost (in both computation and storage) than that made by the prover in generating the proof. 
+
+A PoL proof includes a set of intermediate models recorded during training, together with the corresponding data points used to obtain each recorded model.
+Jia et al. claimed that an adversary merely knowing the final model and training dataset cannot efficiently find a set of intermediate models with correct data points.
+
+In this paper, however, we show that PoL is vulnerable to ``adversarial examples''! 
+Specifically, in a similar way as optimizing an adversarial example, we could make an arbitrarily-chosen data point ``generate'' a given model, hence efficiently generating intermediate models with correct data points.
+We demonstrate, both theoretically and empirically, that we are able to generate a valid proof with significantly less cost than generating a proof by the prover, thereby we successfully break~PoL.
+
+ \end{abstract}
+
+
+
+
+
+
+
+
+
+\section{Introduction}
+
+Recently, Jia et al.~\cite{PoL} propose a concept/mechanism named {\em proof-of-learning} (PoL), 
+which allows a prover $\Prov$ to prove that it has performed a specific set of computations to train a machine learning model;
+and a verifier $\Verif$ can verify correctness of the proof with significantly less cost than training the model.
+This mechanism can be immediately applied in at least two settings. 
+First, when the intellectual property of a model owner is infringed upon (e.g., by a model stealing attack~\cite{tramer2016stealing, wang2018stealing, orekondy2019knockoff}),
+it allows the owner to claim ownership of the model and resolve the dispute.
+Second, in the setting of federated learning~\cite{mcmahan17a}, where a model owner distributes the training process across multiple workers, it allows the model owner to verify the integrity of the computation performed by these workers.
+This could prevent Byzantine workers from conducting denial-of-service attacks~\cite{NIPS2017_f4b9ec30}.
+
+
+\Paragraph{PoL mechanism.}
+In their proposed mechanism~\cite{PoL}, 
+$\Prov$ provides a PoL proof that includes:
+(i) the training dataset,
+(ii) the intermediate model weights at periodic intervals during training $W_0, W_k, W_{2k}, ..., W_{T}$, and 
+(iii) the corresponding indices of the data points used to train each intermediate model.
+With a PoL proof, one can replicate the path all the way from the initial model weights $W_0$ to the final model weights $W_T$ to be fully confident that $\Prov$ has indeed performed the computation required to obtain the final model.
+
+During verification, $\Verif$ first verifies the provenance of the initial model weights $W_0$: whether it is sampled from the required initialization distribution;
+and then recomputes a subset of the intermediate models to confirm the validity of the sequence provided.
+However, $\Verif$ may not be able to reproduce the same sequence due to the noise arising from the hardware and low-level libraries.
+To this end, they allow a distance between the recomputed model and its corresponding model in PoL.
+Namely, for any $W_t$, $\Verif$ performs a series of $k$ updates to arrive at $W'_{t+k}$, which is compared to the purported $W_{t+k}$.
+They tolerate:
+\begin{center}
+    $d(W_{t+k}, W'_{t+k}) \leq \delta$,
+\end{center}
+where $d$ represents a distance that could be $l_1$, $l_2$, $l_{\infty}$ or $cos$,
+and $\delta$ is the verification threshold that should be calibrated before verification starts.
+
+
+
+
+
+
+
+
+Jia et al.~\cite{PoL} claimed in their paper that an adversary $\Adv$ can never construct a valid a PoL with less cost (in both computation and storage) than that made by $\Prov$ in generating the proof (a.k.a. {\em spoof a PoL}).
+However, they did not provide a proof to backup their claim.
+Instead, they simply designed some attacks by themselves and showed that those attacks are invalid. 
+Without a doubt, this kind of security evaluation is unable to cover all potential attacks.
+
+\Paragraph{Our contribution.}
+By leveraging the idea of generating adversarial examples, we successfully spoof a PoL!
+
+In the PoL threat model, Jia et al.~\cite{PoL} assumed that ``{\em $\Adv$ has full access to the training dataset, and can modify it}''.
+Thanks to this assumption, we can slightly modify a data point so that it can update a model and make the result pass the verification. 
+In more detail, given the training dataset and the final model weights $W_T$, 
+$\Adv$ randomly samples all intermediate model weights in a PoL: $W_0, W_k, W_{2k} ...$ (only $W_0$ needs to be sampled from the given distribution).
+For any two neighboring model weights 
+$(W_{t-k}, W_{t})$,
+$\Adv$ picks batches of data points $(\mathbf{X}, \mathbf{y})$ from $D$,
+and keeps manipulating $\mathbf{X}$ until:
+\begin{center}
+    $d(\texttt{update}(W_{t-k}, (\XX, \yy)), W_{t}) \leq \delta$.
+\end{center}
+The mechanism for generating adversarial examples ensures that the noise added to $\XX$ is minimized.
+
+We further optimize our attack by sampling $W_0, W_k, W_{2k} ...$ in a way such that:
+\begin{center}
+    $d(W_t, W_{t-k}) < \delta$,  $\forall~0 < t < T$ and $t\mod k =0$.
+\end{center}
+With this condition, it becomes much easier for the ``adversarial'' $\XX$ to converge,
+hence making our attack much more efficient.
+
+We empirically evaluate our attacks in both reproducibility and spoof cost.
+We reproduced the results in~\cite{PoL} as baselines for our evaluations.
+Our experimental results show that, in most cases of our setting, our attacks introduce smaller reproduction errors and less cost than the baselines.
+That is to say, under the same assumption as in~\cite{PoL}, we can successfully spoof a PoL.
+
+\Paragraph{Organization.}
+In the remainder of this paper, we first provide a brief introduction to PoL in Section~\ref{sec:background}.
+Then, we formally describe our attack in Section~\ref{sec:attack} and extensively evaluate it in Section~\ref{sec:eval}.
+In Section~\ref{sec:discuss}, we provide some countermeasures. 
+Section~\ref{sec:related} compares our attacks to closely related work.
+
+\Paragraph{Notations.} We introduce new notations as needed. 
+A summary of notations appears in Table~\ref{notationtable}.
+
+
+\begin{table}[ht]
+\small
+\centering
+\caption{Summary of notations}
+\begin{spacing}{1.30}
+\begin{tabular}{p{1.75cm} p{5cm}}
+\hline
+\textbf{Notation} & \textbf{Description} \\ \hline
+$\Prov$ & prover \\ \hline
+$\Verif$ & verifier \\ \hline
+$\Adv$ & attacker \\ \hline
+$D$ & dataset \\ \hline
+$f_{W}$ & machine learning model \\ \hline
+${W}$ & model weights \\ \hline
+$\Proof(\Prov, f_{W_T})$ & PoL proof \\ \hline
+$\Proof(\Adv, f_{W_T})$ & PoL spoof \\ \hline
+$\WWW$ & intermediate model weights  \\ \hline
+$\III$ & indices of data points \\ \hline
+$\HHH$ & signatures of data points  \\ \hline
+$\AAA$ & auxiliary information \\ \hline
+$E$ & number of epochs \\ \hline
+$S$ & number of steps per epoch \\ \hline
+$T$ & number of steps in $\Proof(\Prov, f_{W_T})$ \\ 
+&$T = E \cdot S$ \\ \hline
+$T'$ & number of steps in $\Proof(\Adv, f_{W_T})$ \\ \hline
+$Q$ & number of models verified per epoch \\ \hline
+$N$ & number of steps in generating an ``adversarial example'' \\ \hline
+$k$ & checkpointing interval \\ \hline
+$d()$ & distance that could be $l_1$, $l_2$, $l_{\infty}$ or $cos$ \\ \hline
+$\delta$ & verification threshold \\ \hline
+$\gamma$ & $\gamma \ll \delta$  \\ \hline
+$\zeta$ & distribution for $W_0$ \\ \hline
+$\eta$ & learning rate \\ \hline
+$\varepsilon$ & reproduction error \\ \hline
+$\mathbf{X}$ & batch of data points \\ \hline
+$\mathbf{y}$ & batch of labels \\ \hline
+$\mathbf{R}$ & batch of noise \\ \hline
+\end{tabular}
+\end{spacing}
+\label{notationtable}
+\vspace{-3mm}
+\end{table}
+
+
+
+ 
+\section{Proof-of-Learning}
+\label{sec:background}
+
+In this section, we provide a brief introduction to proof-of-learning (PoL). 
+We refer to~\cite{PoL} for more details
+
+
+\subsection{PoL definition}
+\label{sec:definition}
+
+PoL allows a prover $\Prov$ to demonstrate ownership of a machine learning model by  proving the integrity of the training procedure.
+Namely, during training, $\Prov$ accumulates some secret information associated with training, which is used to construct the PoL proof $\Proof(\Prov, f_{W_T})$.
+When the integrity of the computation (or model ownership) is under debate, an honest and trusted verifier $\Verif$ validates $\Proof(\Prov, f_{W_T})$ by querying $\Prov$ for a subset (or all of) the secret information, under which $\Verif$ should be able to ascertain if the PoL is valid or not.
+A PoL proof is formally defined as follows:
+\begin{definition}
+A PoL proof generated by a prover $\Prov$ is defined as $\Proof(\Prov, f_{W_T}) = (\WWW, \III, \HHH, \AAA)$, 
+where 
+(a) $\WWW$ is a set of intermediate model weights recorded during training,
+(b) $\III$ is a set of information about the specific data points used to train each intermediate model, 
+(c) $\HHH$ is a set of signatures generated from these data points, and 
+(d) $\AAA$ incorporates auxiliary information training the model such as hyperparameters, model architecture, optimizer and loss choices\footnote{For simplicity, we omit $\AAA$ in this paper and denote a PoL proof as $\Proof(\Prov, f_{W_T}) = (\WWW, \III, \HHH)$.} 
+\end{definition}
+
+An adversary $\Adv$ might wish to spoof $\Proof(\Prov, f_{W_T})$ by spending less computation and storage than that made by $\Prov$ in generating the proof.
+By spoofing, $\Adv$ can claim that it has performed the computation required to train $f_{W_T}$. 
+A PoL mechanism should guarantee: 
+\begin{itemize}
+    \item $C_{\Verif} \leq C_{\Prov}$, where $C_{\Prov}$ denotes the cost (in both computation and storage) associated with training $f_{W_T}$ by $\Prov$, and $C_{\Verif}$ denotes the cost associated with verifying the PoL by $\Verif$. 
+
+
+    \item $C_{\Prov} \leq C_{\Adv}$, where $C_{\Adv}$ denotes the cost associated with any spoofing strategy attempted by any $\Adv$.
+\end{itemize}
+
+
+\subsection{Threat Model}
+\label{sec:model}
+
+
+
+
+In~\cite{PoL}, any of the following cases is considered to be a successful spoof by $\Adv$:
+\begin{enumerate}
+    \item {\em Retraining-based spoofing:} $\Adv$ produced a PoL for $f_{W_T}$ that is exactly the same as the one produced by $\Prov$, i.e., $\Proof(\Adv, f_{W_T}) = \Proof(\Prov, f_{W_T})$.
+    \item {\em Stochastic spoofing:} $\Adv$ produced a valid PoL for $f_{W_T}$, but it is different from the one produced by $\Prov$ i.e.,$\Proof(\Adv, f_{W_T}) \neq \Proof(\Prov, f_{W_T})$.
+    \item {\em Structurally Correct Spoofing:} $\Adv$ produced an invalid PoL for $f_{W_T}$ but it can pass the verification.
+    \item {\em Distillation-based Spoofing:} $\Adv$ produced a valid PoL for an approximated model, which has the same run-time performance as $f_{W_T}$.
+\end{enumerate}
+
+The following adversarial capabilities are assumed in~\cite{PoL}:
+\begin{enumerate}
+    \item $\Adv$ has full knowledge of the model architecture, model weights, loss function, optimizer and other hyperparameters.
+    \item  $\Adv$ has full access to the training dataset $D$ and  can modify it. {\bf This assumption is essential to our attacks.}
+    \item $\Adv$ does not have access to the source of randomness used by $\Prov$, i.e., $\Adv$ has no knowledge of $\Prov$'s strategies about batching, parameter initialization, random generation and so on.
+\end{enumerate}
+
+
+\subsection{PoL Creation}
+
+\renewcommand{\algorithmiccomment}[1]{$\triangleright$ #1}
+\begin{algorithm}[htb]
+\caption{PoL Creation (taken from~\cite{PoL})}
+\label{alg:creation}
+\LinesNumbered 
+\KwIn {$D$, $k$, $E$, $S$, $\zeta$}
+\KwOut {PoL proof: $\Proof(\Prov, f_{W_T})=(\WWW, \III, \HHH)$} 
+$\WWW\leftarrow\{\}$
+$\III\leftarrow\{\}$
+$\HHH\leftarrow\{\}$\\
+$W_0 \leftarrow \texttt{init}(\zeta))$ \hfill\CommentSty{initialize $W_0$}\\
+\For{$e = 0  \to E-1 $}{
+    $I \leftarrow \texttt{getBatches}(D, S)$
+    
+    \For{$s = 0  \to S-1 $}{
+        $t:= e\cdot S + s$
+        
+        $W_{t+1} \leftarrow \texttt{update}(W_t, D[I[s]])$
+        
+        $\III.\texttt{append}(I[s])$
+        
+        $\HHH.\texttt{append}(h(D[I[s]]))$
+        
+        \eIf{$t \mod k = 0$}{
+            $\WWW.\texttt{append}(W_t)$
+
+        }{
+            $\WWW.\texttt{append}(\mathbf{nil})$
+        }
+        
+    }
+}
+\end{algorithm}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+The PoL creation process is shown in Algorithm~\ref{alg:creation}, which is taken from~\cite{PoL} and slightly simplified by us.
+$\Prov$ first initializes the weights $W_0$ according to an initialization strategy $\texttt{init}(\zeta)$ (line 2), where $\zeta$ is the distribution to draw the weights from.
+If the initial model is obtained from elsewhere, a PoL is required for the initial model itself as well. 
+We omit this detail in our paper for simplicity.
+
+For each epoch, $\Prov$ gets $S$ batches of data points from the dataset $D$ via $\texttt{getBatches}(D, S)$ (Line 4), the output of which is a list of $S$ sets of data indices. 
+In each step $s$ of the epoch $e$, the model weights are updated with a batch of data points in $D$ indexed by $I[s]$ (Line 7).
+The \texttt{update} function leverages a suitable optimizer implementing a variant of gradient descent.
+$\Prov$ records the updated model $W_t$ for every $k$ steps (Line 11), hence $k$ is a parameter called checkpointing interval and $\frac{1}{k}$ is then the checkpointing frequency.
+To ensure that the PoL proof will be verified with the same data points as it was trained on, 
+$\Prov$ includes a signature of the training data (Line 9) along with the data indices (Line 8).
+
+
+\subsection{PoL Verification}
+\label{sec:verification}
+
+\renewcommand{\algorithmiccomment}[1]{$\triangleright$ #1}
+\begin{algorithm}[htb]
+\caption{PoL Verification (taken from~\cite{PoL})}
+\label{alg:verification}
+\LinesNumbered 
+\KwIn {$\Proof(\Prov, f_{W_T})$, $D$, $k$, $E$, $S$, $\zeta$}
+\KwOut {$\mathbf{success}$ / $\mathbf{fail}$} 
+\If{\texttt{verifyInitialization}$(\WWW[0]) = \mathbf{fail}$}{
+    {\bf return} $\mathbf{fail}$
+}
+
+$e \leftarrow 0$
+
+$\mathit{mag} \leftarrow \{\}$
+
+\For{$t = 0  \to T-1 $}{
+    \If{$t \mod k = 0~\wedge~t \neq 0$}{
+        $\mathit{mag}.\texttt{append}(d(\WWW[t], \WWW[t-k]))$
+    }
+    $e_t = \left \lfloor \frac{t}{S} \right \rfloor$
+    
+    \If{$e_t = e + 1$}{
+        $idx \leftarrow \texttt{sortedIndices}(\mathit{mag}, \downarrow)$
+        
+        \If{\texttt{verifyEpoch}$(idx) = \mathbf{fail}$}{
+            {\bf return} $\mathbf{fail}$
+        }
+    }
+    $e\leftarrow e_t$
+    
+    $\mathit{mag} \leftarrow \{\}$
+}
+{\bf return} $\mathbf{success}$ \\
+~
+\SetKwFunction{FMain}{verifyEpoch}
+\SetKwProg{Fn}{function}{}{end}
+
+\Fn{\FMain{$idx$}}{
+    \For{$q = 1 \to Q$}{
+        $t := idx[q-1]$
+        
+
+
+
+
+        $\texttt{verifyDataSignature}(\HHH[t], \III[t])$
+        
+        
+        $W'_t \leftarrow \WWW[t]$
+        
+        \For{$i = 0 \to (k-1)$}{
+            $I_{t+i} \leftarrow \III[t+i]$
+            
+            $W'_{t+i+1} \leftarrow \texttt{update}(W'_{t+i}, D[\III[t+i]])$
+        }
+        
+        \If{$d(W'_{t+k}, \WWW[t+k])> \delta$}{
+            {\bf return} $\mathbf{fail}$
+        }
+    }
+}
+\end{algorithm}
+
+
+Algorithm~\ref{alg:verification} shows the PoL verification process.
+$\Verif$ first checks if $W_0$ was sampled from the required distribution using a statistical test (Line 1).
+Once every epoch, $\Verif$ records the distances between each two neighboring models in $\mathit{mag}$ (line 7-9);
+sort mag to find $Q$ largest distances and verify the corresponding models and data samples via \texttt{verifyEpoch} (Line 12-13). 
+Notice that there are at most $\left\lfloor \frac{S}{k}  \right\rfloor$ distances in each epoch, hence $Q \leq \left\lfloor \frac{S}{k}  \right\rfloor$.
+
+In the \texttt{verifyEpoch} function, $\Verif$ first loads the batch of indexes corresponding to the data points used to update the model from $W_t$ to $W_{t+k}$.
+Then, it attempts to reproduce $W_{t+k}$ by performing a series of $k$ updates to arrive at $W'_{t+k}$. 
+Notice that $W'_{t+k} \neq W_{t+k}$ due to the noise arising from the hardware and low-level libraries such as cuDNN~\cite{chetlur2014cudnn}.
+The reproduction error for the $t$-th model is defined as:
+\begin{center}
+    $\varepsilon_{\mathit{repr}}(t) = d(W_{t+k}, W'_{t+k})$,
+\end{center}
+where $d$ represents a distance that could be $l_1$, $l_2$, $l_{\infty}$ or $cos$.
+It is required that:
+\begin{center}
+    $\mathrm{max}_t(\varepsilon_{\mathit{repr}}(t)) \ll d_{\mathit{ref}}$,
+\end{center}
+where $d_{\mathit{ref}} = d(W_T^1, W_T^2)$ is the distance between two models $W_T^1$ and $W_T^2$ trained with the same architecture, dataset, and initialization strategy, but with  different batching strategies and potentially different initial model weights.
+A {\em verification threshold} $\delta$ that satisfies:
+\begin{center}
+   $\mathrm{max}_t(\varepsilon_{\mathit{repr}}(t)) < \delta < d_{\mathit{ref}}$,
+\end{center}
+should be calibrated before verification starts.
+In their experiments, Jia et al.~\cite{PoL} adopted a normalized reproduction error:
+\begin{center}
+    $||\varepsilon_{\mathit{repr}}(t)|| = \frac{\mathrm{max}_t(\varepsilon_{\mathit{repr}}(t))}{d_{\mathit{ref}}}$
+\end{center}
+to evaluate the reproducibility.
+
+
+
+
+
+In the end, we remark that the number of steps $T$ in PoL verification (Algorithm~\ref{alg:verification}) could be different from that in PoL creation (Algorithm~\ref{alg:creation}),
+because $\Adv$ could come up with either a stochastic spoofing or a structurally correct spoofing, with a different $T$.   
+
+
+ 
+\section{Attack Methodology}
+\label{sec:attack}
+
+In this section, we describe our attacks in detail. 
+All of our attacks are stochastic spoofing:
+the PoL proof generated by $\Adv$ is not exactly the same as the one provided by $\Prov$ (in particular, with a smaller number of steps $T'$), but can pass the verification. 
+
+\fig~\ref{fig:overview} shows the basic idea of our attacks: the adversary $\Adv$ first generates dummy model weights: $W_0, ..., W_{T-1}$ (serving as $\WWW$); and then generates ``adversarial examples'' (serving as $\III$) for each pair of neighboring models.
+An adversarial example is an instance added with small and intentional perturbations so that a machine learning model will make a false prediction on it. 
+In a similar way as optimizing an adversarial example, we could make an arbitrarily-chosen date point ``generate'' a given model (we call it {\em adversarial optimization}), hence making $(\WWW, \III)$ pass the verification. 
+
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.99\linewidth]{./pic/overview.png}
+    \caption{Basic idea of our attacks. 
+    The adversary first generates dummy model weights: $W_0, ..., W_{T-1}$ (serving as $\WWW$); and then generates ``adversarial examples'' (serving as $\III$) for each pair of neighboring models.}
+    \label{fig:overview}
+\end{figure}
+
+Recall that one requirement for a spoof to succeed is that $\Adv$ should spend less cost than 
+the PoL creation process described in Algorithm~\ref{alg:creation} (which is $T=E\cdot S$ times of \texttt{update}).
+Next, we show how we achieve this.
+
+
+\subsection{Attack~I}
+
+Our first insight is that there is no need to construct an adversarial example for every pair of neighboring models.
+Instead, $\Adv$ could simply update the model from $W_0$ to $W_{T-1}$ using original data points, 
+and construct an ``adversarial example'' only from $W_{T-1}$ to $W_T$.
+In this case, $\Adv$ only needs to construct a single ``adversarial example'' for the whole attacking process.
+Furthermore, $\Adv$ could use a smaller number of steps, denoted as $T'$.
+
+\renewcommand{\algorithmiccomment}[1]{$\triangleright$ #1}
+\begin{algorithm}[htb]
+\caption{Attack~I}
+\label{alg:attack1}
+\LinesNumbered 
+\KwIn {$D$, $f_{W_T}$, $\delta$, $\zeta$, $k$, $E$, $S$}
+\KwOut {PoL spoof: $\Proof(\Adv, f_{W_T})=(\WWW, \III, \HHH)$ \\
+~~~~~~~~~~~updated dataset: $D$}
+$\WWW\leftarrow\{\}$
+$\III\leftarrow\{\}$
+$\HHH\leftarrow\{\}$
+
+$\WWW.\texttt{append}(\texttt{init}(\zeta))$  \hfill\CommentSty{initialize and append $W_0$}
+
+
+\For(\hfill\CommentSty{$T' \mod k =0$}){$t = 1  \to T' $}{
+    
+    $\III.\texttt{append}(\texttt{getBatch}(D))$
+   
+   \eIf{$t<T'$}{
+        $W_{t} \leftarrow \texttt{update}(W_{t-1}, D[\III[t-1]])$
+        
+        \eIf{$t\mod k = 0$}{
+            $\WWW.\texttt{append}(W_t)$ 
+        }{
+            $\WWW.\texttt{append}(\mathbf{nil})$ 
+        }
+    }{
+        $\texttt{updateDataPoints}(W_{t-1}, W_{T})$
+    }
+    $\HHH.\texttt{append}(h(D[\III[t-1]]))$
+}
+~
+\SetKwFunction{FMain}{updateDataPoints}
+\SetKwProg{Fn}{function}{}{end}
+
+\Fn{\FMain{$W_{t-1}$, $W_{t}$}}{
+
+
+    $W'_{t-1} := W_{t-1}$
+    
+    $(\XX, \yy) \leftarrow D[\III[t-1]]$
+        
+    $W'_{t} \leftarrow \texttt{update}(W'_{t-1}, (\XX, \yy))$
+        
+    \While{$d(W'_{t}, W_{t}) > \delta$}{
+        $\mathbf{R} \leftarrow \texttt{zeros}$
+                
+        $\triangledown_{W'_{t-1}} \leftarrow - \frac{\partial}{\partial W'_{t-1}} L(f_{W'_{t-1}}(\XX+\mathbf{R}), \yy)$
+                
+        $\mathbb{D}_{t-1} \leftarrow d(W'_{t-1}+\eta \triangledown_{W'_{t-1}}, W_{t})$ + $d(\mathbf{R}, 0)$
+                
+        $\mathbf{R} \leftarrow \mathbf{R} - \eta' \triangledown_R \mathbb{D}_{t-1}$
+                
+        $W'_{t} \leftarrow \texttt{update}(W'_{t-1}, (\XX+\mathbf{R}, \yy))$
+    }
+    $D[\III[t-1]] := (\XX+\mathbf{R}, \yy)$
+}
+\end{algorithm}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Algorithm~\ref{alg:attack1} shows our first attack.
+From $W_0$ to $W_{T'-1}$, it works in the same way as PoL creation (cf. Algorithm~\ref{alg:creation}).
+For $W_{T'-1}$, the batch of inputs $(\XX, \yy)$ must be manipulated so that:
+
+
+
+
+
+\begin{center}
+    $d(W_{T'}, W_T) \leq \delta.$
+\end{center}
+
+Line 22-28 show how $\Adv$ manipulates $\XX$.
+Specifically, $\Adv$ first initializes a batch of noise $\RR$ as zeros (line 23).
+Then, it feeds $(\XX+\RR)$ to $f_{W'_{t-1}}$ and gets the gradients $\triangledown_{W'_{t-1}}$ (line 25).
+Next, $\Adv$ optimizes $\RR$ by minimizing the following distance (line 26-27):
+\begin{center}
+    $\mathbb{D}_{t-1} \leftarrow d(W'_{t-1}+\eta \triangledown_{W'_{t-1}}, W_{t})$ + $d(\mathbf{R}, 0).$
+\end{center}
+This distance needs to be differentiable so that $\RR$ can be optimized using standard gradient-based methods\footnote{Specificly, we use L-BFGS for adversarial optimization.}. 
+Notice that this optimization requires 2nd order derivatives. We assume that $f_{W}$ is twice differentiable, which holds for most modern machine learning models and tasks.
+
+Clearly, the PoL proof $\Proof(\Adv, f_{W_T})=(\WWW, \III, \HHH)$ generated by Attack~I can pass the verification process described in Algorithm~\ref{alg:verification}.
+It requires \ul{$T'$ times of \texttt{update} plus $N$ times of adversarial optimization} (where $N$ is the times that the {\bf while} loop runs).
+Recall that our focus is stochastic spoofing:
+the PoL proof generated by $\Adv$ is not exactly the same as the one provided by $\Prov$, but can pass the verification. 
+Therefore, we can use a $T'$ that is much smaller than $T$.
+However, $N$ could be large and sometimes even cannot converge.
+Next, we show how we optimize the attack so that a small $N$ is able to make the adversarial optimization converge.
+
+
+
+
+
+
+
+
+
+
+\subsection{Attack~II}
+
+The intuition for accelerating the adversarial optimization process is to sample the intermediate model weights
+in a way such that:
+\begin{center}
+    $d(W_t, W_{t-k}) \leq \delta,~\forall~0< t< T$ and $t \mod k =0$,
+\end{center}
+This brings at least three benefits:
+\begin{enumerate}
+    \item The ``adversarial examples'' become  easier to be optimized.
+    \item The $k$ batches of ``adversarial examples'' in each checkpointing interval can be optimized together. (We defer to explain this benefit in Attack~III.)
+    \item The performance of the intermediate models can be guaranteed. (Recall that $\Verif$ might check model performance periodically.) 
+\end{enumerate}
+
+
+\renewcommand{\algorithmiccomment}[1]{$\triangleright$ #1}
+\begin{algorithm}[htb]
+\caption{Attack~II}
+\label{alg:attack2}
+\LinesNumbered 
+\small
+\KwIn {$D$, $f_{W_T}$, $\delta$, \textcolor{blue}{$\gamma$}, $\zeta$, $k$, $E$, $S$}
+\KwOut {PoL spoof: $\Proof(\Adv, f_{W_T})=(\WWW, \III, \HHH)$ \\
+~~~~~~~~~~~updated dataset: $D$}
+$\WWW\leftarrow\{\}$
+$\III\leftarrow\{\}$
+$\HHH\leftarrow\{\}$
+
+\textcolor{blue}{$\WWW.\texttt{append}(\texttt{initW}_0(\zeta, W_T))$}  \hfill\CommentSty{initialize and append $W_0$}
+
+
+\For(\hfill\CommentSty{$T' \mod k =0$}){$t = 1  \to T' $}{
+
+
+    $\III.\texttt{append}(\texttt{getBatch}(D))$
+    
+
+
+    \eIf{$t\mod k = 0$}{
+        \eIf(\hfill\CommentSty{no need to append $W_T$}){$t < T'$}{
+            \textcolor{blue}{~sample $W_{t}$ s.t., $d(W_{t}, W_{t-k})\leq {\delta}$}
+            $\WWW.\texttt{append}(W_t)$ 
+        }{
+            $W_t := W_T$
+        }
+        
+        $\texttt{updateDataPoints}(W_{t-k}, W_{t})$
+        
+        \For{$i = (t-k) \to (t-1)$}{
+$\HHH.\texttt{append}(h(D[\III[i]]))$
+}
+    }{
+        $\WWW.\texttt{append}(\mathbf{nil})$ 
+    }
+   
+}
+
+
+~
+\SetKwFunction{FMain}{updateDataPoints}
+\SetKwProg{Fn}{function}{}{end}
+
+\Fn{\FMain{$W_{t-k}$, $W_{t}$}}{
+
+
+    $W'_{t-k} := W_{t-k}$
+    
+    \For{$i = (t-k) \to (t-1)$}{
+        $(\mathbf{X}, \mathbf{y}) \leftarrow D[\III[i]]$
+        
+        $W'_{i+1} \leftarrow \texttt{update}(W'_i, (\mathbf{X}, \mathbf{y}))$
+        
+\While(\hfill){\textcolor{blue}{$d(W'_{i+1}, W'_{i}) > \gamma$}}{
+            $\mathbf{R} \leftarrow \texttt{zeros}$
+            
+            $\triangledown_{W'_i} \leftarrow - \frac{\partial}{\partial W'_i} L(f_{W'_i}(\mathbf{X}+\mathbf{R}), \mathbf{y})$
+            
+            \textcolor{blue}{ 
+            $\mathbb{D}_i \leftarrow d(\triangledown_{W'_i} , 0)$ + $d(\mathbf{R}, 0)$
+            }
+            
+            $\mathbf{R} \leftarrow \mathbf{R} - \eta' \triangledown_R \mathbb{D}_i$
+            
+            $W'_{i+1} \leftarrow \texttt{update}(W'_i, (\mathbf{X}+\mathbf{R}, \mathbf{y}))$
+        }
+        $D[\III[i]] := (\mathbf{X}+\mathbf{R}, \mathbf{y})$
+    }
+}
+\end{algorithm}
+
+Algorithm~\ref{alg:attack2} shows Attack~II. We highlight the key differences (compared to Attack~I) in blue.
+
+This time, $\Adv$ initializes $W_0$ via $\texttt{initW}_0$ (line 2), which ensures that $W_0$ follows the given distribution $\zeta$,
+and minimizes $d(W_0, W_T)$ at the same time. 
+It works as follows:
+\begin{enumerate}
+    \item Suppose there are $n$ elements in $W_T$,
+    $\Adv$ puts these elements into a set $S_1$. Then, $\Adv$ samples $n$ elements: $v_1, ..., v_n$ from the given distribution $\zeta$, and puts them into another set $V_2$.
+\item $\Adv$ finds the largest elements $w$ and $v$ from $S_1$ and $S_2$ respectively.
+    Then, $\Adv$ puts $v$ into $W_0$ according
+    to $w$'s indices in $W_T$.
+    \item $\Adv$ remove $(w, v)$ from $(S_1, S_2)$, and repeats step 2) until $S_1$ and $S_2$ are empty.
+\end{enumerate}
+Our experimental results show that this process can initialize a $W_0$ that meets our requirements. 
+
+For other $W_t$s ($t>0$), $\Adv$ can initialize them by equally dividing the distance between $W_0$ and $W_T$.
+If $T'$ is large enough (i.e., there are enough $W_t$s), the condition ``$d(W_t, W_{t-k}) \leq \delta$'' can be trivially satisfied.
+
+
+
+Another major change in Attack~II is that $\Adv$ optimizes the noise $\RR$ by minimizing the following distance (line 27):
+\begin{center}
+    $\mathbb{D}_i \leftarrow d(\triangledown_{W'_i} , 0)$ + $d(\mathbf{R}, 0)$,
+\end{center}
+and the condition for terminating the adversarial optimization is $d(W'_{i+1}, W'_i) >\gamma$ where $\gamma \ll \delta$ (Line 25).
+This guarantees that the model is still close to itself after a single step of update.
+Since the distance between $W_{t-k}$ and $W_{t}$ is smaller than $\delta$ after initialization, after $k$ steps of updates, their distance is still smaller than $\delta$: $d(W_t, W'_t) < \delta$.
+
+
+Interestingly, this change makes the adversarial optimization become easier to converge. 
+Recall that in Attack~I, $\Adv$ has to adjust the loss function $L(f_{W'_i}(\mathbf{X}+\mathbf{R}), \mathbf{y})$ to minimize $d(W'_{t-1}+\eta \triangledown_{W'_{t-1}}, W_{t})$. 
+This is difficult to achieve because gradient-based training is used to minimize (not adjust) the loss function.
+Thanks to the new $\mathbb{D}_i$, $\Adv$ can simply minimize the loss function in Attack~II.
+In another word, the adversarial optimization process in Attack~II is more close to normal training.
+Table~\ref{tab:loss-diff} shows that on CIFAR-10, after one step of adversarial optimization, the loss function decreases from 0.43 to 0.04, and the gradients decrease from 61.13 to 0.12.
+Both are small enough to pass the verification.
+That is to say, $N$ can be as small as one in Attack~II.
+
+
+
+\begin{table}[htb]
+\centering
+\caption{The changes of loss and the gradients after one step of adversarial optimization on CIFAR-10}
+\begin{tabular}{@{}lll@{}}
+\toprule
+ & $L(f_{W'_i}(\mathbf{X}+\mathbf{R}), \mathbf{y})$ & $\left \|\triangledown_{W'_i}\right \|^{2}$ \\ \midrule
+Before & 0.43 $\pm$ 0.18 &  61.13 $\pm$ 45.86 \\
+After & 0.04 $\pm$ 0.01 & {0.12 $\pm$ 0.05}\\ \bottomrule
+\end{tabular}
+\label{tab:loss-diff}
+\end{table}
+
+
+
+
+
+
+
+
+However, Attack~II has to run adversarial optimization for all $T'$ steps;
+otherwise, a single step can make the model go far away from $W_T$.
+As a result, the complexity for Attack~II is \ul{$T'$ times of \texttt{update} plus $T' \cdot N$ times of adversarial optimization}.
+We show how we reduce this complexity in Attack~III. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Attack~III}
+
+\renewcommand{\algorithmiccomment}[1]{$\triangleright$ #1}
+\begin{algorithm}[htb]
+\caption{Attack~III}
+\label{alg:attack3}
+\LinesNumbered 
+\small
+\KwIn {$D$, $f_{W_T}$, $\delta$, $\gamma$, $\zeta$, $k$, $E$, $S$}
+\KwOut {PoL spoof: $\Proof(\Adv, f_{W_T})=(\WWW, \III, \HHH)$ \\
+~~~~~~~~~~~updated dataset: $D$}
+$\WWW\leftarrow\{\}$
+$\III\leftarrow\{\}$
+$\HHH\leftarrow\{\}$
+
+$\WWW.\texttt{append}(\texttt{initW}_0(\zeta, W_T))$  \hfill\CommentSty{initialize and append $W_0$}
+
+
+\For(\hfill\CommentSty{$T' \mod k =0$}){$t = 1  \to T' $}{
+
+
+    $\III.\texttt{append}(\texttt{getBatch}(D))$
+    
+    \eIf{$t\mod k = 0$}{
+        \eIf(\hfill\CommentSty{no need to append $W_T$}){$t < T$}{
+            ~sample $W_{t}$ s.t., {$d(W_{t}, W_{t-k})\leq {\delta}$}
+            $\WWW.\texttt{append}(W_t)$ 
+        }{
+            $W_t := W_T$
+        }
+        
+        $\texttt{updateDataPoints}(W_{t-k}, W_{t})$
+        
+        \For{$i = (t-k) \to (t-1)$}{
+            $\HHH.\texttt{append}(h(D[\III[i]]))$
+        }
+    }{
+        $\WWW.\texttt{append}(\mathbf{nil})$ 
+    }
+}
+
+
+~
+\SetKwFunction{FMain}{updateDataPoints}
+\SetKwProg{Fn}{function}{}{end}
+
+\Fn{\FMain{$W_{t-k}$, $W_{t}$}}{
+
+
+
+
+\textcolor{blue}{ 
+        $(\mathbf{X}, \mathbf{y}) \leftarrow [D[\III[t-k]]...D[\III[t-1]]]$
+        }
+        
+        $W'_{t} \leftarrow \texttt{update}(W_{t-k}, (\mathbf{X}, \mathbf{y}))$
+               
+        \While{$d(W'_{t}, W_{t}) > \gamma \textcolor{blue}{-\sigma}$}{
+            
+            $\mathbf{R} \leftarrow \texttt{zeros}$
+            
+            
+            \textcolor{blue}{ 
+            $\triangledown_{W_{t-k}} \leftarrow - \frac{\partial}{\partial W_{t-k}} L(f_{W_{t-k}}(\mathbf{X}+\mathbf{R}), \mathbf{y})$
+            }
+            
+            \textcolor{blue}{ 
+            $\mathbb{D}_{t-k} \leftarrow d(\triangledown_{W_{t-k}} , 0)$ + $d(\mathbf{R}, 0)$
+            }
+            
+            $\mathbf{R} \leftarrow \mathbf{R} - \eta' \triangledown_R \mathbb{D}_{t-k}$
+            
+            \textcolor{blue}{ 
+            $W'_{t} \leftarrow \texttt{update}(W_{t-k}, (\mathbf{X}+\mathbf{R}, \mathbf{y}))$
+            }
+        }
+        \textcolor{blue}{ 
+        $[D[\III[t-k]]...D[\III[t-1]]] := (\mathbf{X}+\mathbf{R}, \mathbf{y})$}
+}
+\end{algorithm}
+
+Algorithm~\ref{alg:attack3} shows Attack III. Again, we highlight the key differences (compared to Attack II) in blue. 
+The major change is that $\Adv$ optimizes all the $k$ batches of data points  together in \texttt{updateDataPoints}.
+This reduces the complexity to \ul{$T'/k$ times of \texttt{update} plus $T'\cdot N /k$ times of adversarial optimization}.
+At first glance, this will not pass the verification because $\Verif$ will run \texttt{update} for each batch individually. 
+In fact, however, the gap only depends on $k$, hence we can make a trade-off. 
+We formally prove this argument in the rest of this section.
+Our experimental results show that when we set  $k=100$, our spoof can still pass the verification. 
+
+
+
+ 
+\begin{corollary}
+Let $(W_{t-k}, W_t)$ be an input to \texttt{updateDataPoints} in Attack III.
+Let $\{\hat{W}_{t-k-1},...,\hat{W}_{t}\}$ be the model weights computed by $\Verif$ based on $W_{t-k}$ during PoL verification. 
+Assuming the loss function $L(f_{W}(\mathbf{X}),\mathbf{y}) \in C^2(\Omega)$, where $\Omega$ is a closed, convex and connected subset in $\mathbb{R}^n$, and $\{\hat{W}_{t-k-1},...,\hat{W}_{t}\} \in \Omega$. Then, 
+$$||\hat{W}_t-W_t||\leq \eta^2\alpha\beta \frac{(k-1)(k-2)}{2} + \gamma - \sigma,$$
+where $\alpha$ and $\beta$ are the upper bounds of first and second order derivative\footnote{Empirically, $\alpha$ is 0.03 in average and $\beta$ is 0.025 in average.} of $L(f_{W}(\mathbf{X}),\mathbf{y})$.
+\end{corollary}
+
+\begin{proof}
+Let $\XX=[\xx_1, \xx_2, ..., \xx_k]^T$ be the $k$ batches used to update $W_{t-k}$. 
+Denote 
+$$L_i(W) =L(f_W(\xx_i),\yy_i)\in C^2(\Omega),$$
+$$\triangledown_i(W) = \frac{\partial}{\partial W}L_i\in C^1(\Omega),$$
+$$\triangledown'_i(W) = \frac{\partial^2}{\partial W^2}L_i\in C^0(\Omega).$$
+Then, $||\triangledown_i(W)||<\alpha$ and $||\triangledown'_i(W)||<\beta$.
+
+In Attack III, (Line 22 of Algorithm~\ref{alg:attack3}), $W'_t$ is calculated as 
+\begin{equation*}
+    \begin{aligned}
+    W'_t =&~W_{t-k}-\frac{\eta''}{k}(
+       \triangledown_1(W_{t-k})+\triangledown_2(W_{t-k})+...+\triangledown_k(W_{t-k})
+    )
+    \end{aligned}
+\end{equation*}
+Whereas, in PoL verification (Line 29 of Algorithm~\ref{alg:verification}),
+\begin{equation*}
+    \begin{aligned}
+    \hat{W}_{t-k+1} =&~W_{t-k}-\eta\triangledown_1(W_{t-k}) \\
+    \hat{W}_{t-k+2} =&~\hat{W}_{t-k+1}-\eta\triangledown_2(\hat{W}_{t-k+1}) \\
+    ...\\
+    \hat{W}_t =&~\hat{W}_{t-1}-\eta\triangledown_k(\hat{W}_{t-1})
+    \end{aligned}
+\end{equation*}
+It is identical to
+\begin{equation*}
+    \begin{aligned}
+    \hat{W}_t = &W_{t-k}-\eta(
+     \triangledown_1(W_{t-k})+\triangledown_2(\hat{W}_{t-k+1})+...+\triangledown_k(\hat{W}_{t-1})
+       )
+    \end{aligned}
+\end{equation*}
+If $\Adv$ sets $\eta'' = k\eta$, then
+\begin{equation*}
+    \begin{aligned}
+       \hat{W}_t -W'_t = \eta[&(\triangledown_2(W_{t-k})-\triangledown_2(\hat{W}_{t-k+1})+\\&
+       (\triangledown_3(W_{t-k})-\triangledown_3(\hat{W}_{t-k+2})+...+\\
+       &(\triangledown_k(W_{t-k})-\triangledown_k(\hat{W}_{t-1})]
+    \end{aligned}
+\end{equation*}
+Assuming $[\hat{W}_{t-k+l},W_{t-k}]=\{W\in \mathbb{R}^n,W=\hat{W}_{t-k+l}+\theta h,0\leq \theta \leq 1\}$ is a closed set, and $\triangledown_i(W)\in C^1(\Omega)$. 
+Based on the finite-increment theorem (Chapter 10, Section 4 of \cite{book-1469653}), we have
+    \begin{equation*}
+    \begin{aligned}
+||\triangledown_i(W_{t-k}) - \triangledown_i(\hat{W}_{t-k+l})||&\leq \sup_{W}||\frac{\partial\triangledown_i(W)}{\partial W}||\cdot||h|| \\&\leq  \beta||W_{t-k}-\hat{W}_{t-k+l}||
+\end{aligned}
+   \end{equation*}
+Given 
+    \begin{equation*}
+    \begin{aligned}
+||W_{t-k}-\hat{W}_{t-k+l}|| &=\eta ||\triangledown_1(W_{t-k}) + \triangledown_2(\hat{W}_{t-k+1}) + ... \\ &~~~~+  \triangledown_{l-1}(\hat{W}_{t-k+l-1})|| \\ 
+&\leq (l-1) \eta \alpha,
+        \end{aligned}
+   \end{equation*}
+we have
+$$||\triangledown_i(W_{t-k}) - \triangledown_i(\hat{W}_{t-k+l})|| \leq 
+(l-1)\eta \alpha \beta.$$
+Then,
+\begin{equation*}
+\begin{aligned}
+          \hat{W}_t -W'_t  &\leq 
+          \eta^2\alpha\beta\sum_{l=1}^{k-1}{(l-1)} \\
+          &= \eta^2\alpha\beta \frac{(k-1)(k-2)}{2}
+\end{aligned}
+\end{equation*}
+
+Recall that $d(W'_t,W_t) \leq \gamma - \sigma$ (Line 23 in Algorithm~\ref{alg:attack3}). 
+Then, 
+\begin{equation*}
+\begin{aligned}
+    ||\hat{W}_t-W_t|| &= ||\hat{W}_t-W'_t+W'_t-W_t||\\
+    &\leq ||\hat{W}_t-W'_t|| + ||W'_t-W_t||\\
+    &\leq \eta^2\alpha\beta \frac{(k-1)(k-2)}{2} + \gamma - \sigma
+    \end{aligned}
+\end{equation*}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{proof}
+
+Therefore, Attack III can pass the verification if we set $\sigma > \eta^2\alpha\beta \frac{(k-1)(k-2)}{2}$. 
+
+
+
+\begin{figure*}
+    \centering
+    \subfigure[Normalized reproduction error in $l_1$]{
+    \includegraphics[width=0.32\linewidth]{./pic/norm1_cifar10_attack2.png}\label{fig:2.1}}
+    \subfigure[Normalized reproduction error in $l_2$]{
+    \includegraphics[width=0.32\linewidth]{./pic/norm2_cifar10_attack2.png}\label{fig:2.2}}
+    \subfigure[Normalized reproduction error in $l_{\infty}$]{
+    \includegraphics[width=0.32\linewidth]{./pic/norminf_cifar10_attack2.png}\label{fig:2.3}}
+    \\
+    \subfigure[Normalized reproduction error in $cos$]{
+    \includegraphics[width=0.32\linewidth]{./pic/normcos_cifar10_attack2.png}\label{fig:2.4}}
+    \subfigure[Spoof generation time.]{
+    \includegraphics[width=0.32\linewidth]{./pic/Time_cifar10_attack2.png}\label{fig:2.5}}
+    \subfigure[Spoof size.]{
+    \includegraphics[width=0.32\linewidth]{./pic/Size_cifar10_attack2.png}\label{fig:2.6}}        
+\caption{Attack II on CIFAR-10}
+    \label{fig:Attack2_cifar10_eps}
+\end{figure*}
+\begin{figure*}
+    \centering
+    \subfigure[Normalized reproduction error in $l_1$]{
+    \includegraphics[width=0.32\linewidth]{./pic/norm1_cifar100_attack2.png}\label{fig:3.1}}
+    \subfigure[Normalized reproduction error in $l_2$]{
+    \includegraphics[width=0.32\linewidth]{./pic/norm2_cifar100_attack2.png}\label{fig:3.2}}
+    \subfigure[Normalized reproduction error in $l_{\infty}$]{
+    \includegraphics[width=0.32\linewidth]{./pic/norminf_cifar100_attack2.png}\label{fig:3.3}}
+    \\
+    \subfigure[Normalized reproduction error in $cos$]{
+    \includegraphics[width=0.32\linewidth]{./pic/normcos_cifar100_attack2.png}\label{fig:3.4}}
+    \subfigure[Spoof generation time.]{
+    \includegraphics[width=0.32\linewidth]{./pic/Time_cifar100_attack2.png}\label{fig:3.5}}
+    \subfigure[Spoof size.]{
+    \includegraphics[width=0.32\linewidth]{./pic/Size_cifar100_attack2.png}\label{fig:3.6}}        
+\caption{Attack II on CIFAR-100}
+    \label{fig:Attack2_cifar100_eps}
+\end{figure*}
+\begin{figure*}
+    \centering
+    \subfigure[Normalized reproduction error in $l_1$.]{
+    \includegraphics[width=0.32\linewidth]{./pic/norm1_cifar10_attack3.png}\label{fig:4.1}}
+    \subfigure[Normalized reproduction error in $l_2$.]{
+    \includegraphics[width=0.32\linewidth]{./pic/norm2_cifar10_attack3.png}\label{fig:4.2}}
+    \subfigure[Normalized reproduction error in $l_{\infty}$.]{
+    \includegraphics[width=0.32\linewidth]{./pic/norminf_cifar10_attack3.png}\label{fig:4.3}}
+    \subfigure[Normalized reproduction error in $cos$.]{
+    \includegraphics[width=0.32\linewidth]{./pic/normcos_cifar10_attack3.png}\label{fig:4.4}}
+    \subfigure[Spoof generation time.]{
+    \includegraphics[width=0.32\linewidth]{./pic/Time_cifar10_attack3.png}\label{fig:4.5}}
+    \subfigure[Spoof Size.]{
+    \includegraphics[width=0.32\linewidth]{./pic/Size_cifar100_attack3.png}\label{fig:4.6}}
+    
+    \caption{Attack III on CIFAR-10.}
+    \label{fig:Attack3_cifar10_eps}
+\end{figure*}
+\begin{figure*}
+    \centering
+    \subfigure[Normalized reproduction error in $l_1$.]{
+    \includegraphics[width=0.32\linewidth]{./pic/norm1_cifar100_attack3.png}\label{fig:5.1}}
+    \subfigure[Normalized reproduction error in $l_2$.]{
+    \includegraphics[width=0.32\linewidth]{./pic/norm2_cifar100_attack3.png}\label{fig:5.2}}
+    \subfigure[Normalized reproduction error in $l_{\infty}$.]{
+    \includegraphics[width=0.32\linewidth]{./pic/norminf_cifar100_attack3.png}\label{fig:5.3}}
+    \subfigure[Normalized reproduction error in $cos$.]{
+    \includegraphics[width=0.32\linewidth]{./pic/normcos_cifar100_attack3.png}\label{fig:5.4}}
+    \subfigure[Spoof generation time.]{
+    \includegraphics[width=0.32\linewidth]{./pic/Time_cifar100_attack3.png}\label{fig:5.5}}
+    \subfigure[Spoof size.]{
+    \includegraphics[width=0.32\linewidth]{./pic/Size_cifar100_attack3.png}\label{fig:5.6}}
+    \caption{Attack III on CIFAR-100. }
+    \label{fig:Attack3_cifar100_eps}
+\end{figure*}
+\begin{figure*}
+    \centering
+    \subfigure[Intermediate models accuracy on CIFAR-10]{
+    \includegraphics[width=0.45\linewidth]{./pic/intermediate_model_accuracy.png}}
+    \subfigure[Intermediate models accuracy on CIFAR-100]{
+    \includegraphics[width=0.45\linewidth]{./pic/intermediate_model_cifar100_accuracy.png}}
+    \caption{Intermediate model accuracy ($T'=300$) }
+    \label{fig:intermediate_model_accuracyl}
+\end{figure*}
+\begin{figure*}
+    \centering
+    \subfigure[CIFAR-10]{
+    \includegraphics[width=0.45\linewidth]{./pic/ad_opt1.PNG}}
+    \subfigure[CIFAR-100]{
+    \includegraphics[width=0.45\linewidth]{./pic/ad_opt2.PNG}}
+    \caption{``Adversarial examples'' generated by Attack~III. The original images are on the left-hand side and the noised images are on the right-hand side.}
+    \label{fig:ad_exp}
+\end{figure*}
+
+\section{Evaluation}
+\label{sec:eval}
+
+In this section, we empirically evaluate our attacks in two metrics:
+\begin{itemize}
+    \item {\bf Reproducibility.} We need to show that the normalized reproduction errors (cf. Section~\ref{sec:verification}) in $l_1$, $l_2$, $l_{\infty}$ and $cos$ introduced by our PoL spoof $\Proof(\Adv, f_{W_T})$ are smaller than  those introduced by a legitimate PoL proof $\Proof(\Prov, f_{W_T})$.
+    That means, as long as $\Proof(\Prov, f_{W_T})$ can pass the verification, our spoof $\Proof(\Adv, f_{W_T})$ can pass the verification as well.
+    \item {\bf Spoof cost.} Recall that a successful PoL spoof requires $\Adv$ to spend less computation and storage than $\Prov$ (cf. Section~\ref{sec:definition}).
+    Therefore, we need to show that the generation time and size of $\Proof(\Adv, f_{W_T})$ are smaller than those of $\Proof(\Prov, f_{W_T})$.
+    
+\end{itemize}
+
+\subsection{Setting}
+
+Following the experimental setup in~\cite{PoL},
+we evaluate our attacks for ResNet-20~\cite{He2016resnet} and ResNet-50~\cite{He2016resnet} on CIFAR-10~\cite{krizhevsky2009learning} and CIFAR-100~\cite{krizhevsky2009learning} respectively. 
+Each of them contains 50,000 training images and 10,000 testing images; and each image is of size 32×32×3. 
+CIFAR-10 only has 10 classes and CIFAR-100 has 100 classes.
+
+
+We reproduced the results in~\cite{PoL} as baselines for our attacks. 
+Namely, we generate $\Proof(\Prov, f_{W_T})$ by training both models for 200 epochs with 390 steps in each epoch (i.e., $E=200$, $S=390$) with batch sizes being 128;
+we set $k$ as 100\footnote{The authors in~\cite{PoL} suggest to set $k=S$ (which is 390), but in that case $Q$ can only be one.} and measure the normalized reproduction errors and costs.
+Since our attacks are stochastic spoofing, where $\Proof(\Adv, f_{W_T})$ is {\em not} required to be exactly the same as $\Proof(\Prov, f_{W_T})$, we could use different $T$, $k$ and batch size in our attacks.
+Recall that $\Verif$ only verifies $Q < \frac{S}{k}$ largest updates for each epoch (cf. Algorithm~\ref{alg:verification}).
+Therefore, we measure the reproducibility and spoof cost for both $Q = \left\lfloor \frac{S}{k}  \right\rfloor$ (full verification) and $Q=1$ (top-Q verification).
+
+We set $k$ as 100 and batch size as 10 for all of our attacks except Attack~III on CIFAR-100\footnote{The model for CIFAR-100 is large and Attack~III needs to load all $k$ batches into the memory. So we have to use a smaller $k$ or batch size.}.
+Since it is difficult for Attack~I to converge, we focus on evaluating Attack~II and Attack~III.
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Attack II}
+
+
+
+
+\fig~\ref{fig:Attack2_cifar10_eps} shows the evaluation results of Attack II on CIFAR-10. 
+The results show that the normalized reproduction errors introduced by $\Proof(\Adv, f_{W_T})$ are always smaller than those introduced by $\Proof(\Prov, f_{W_T})$ in $l_1$, $l_2$ and $l_{cos}$ (\fig~\ref{fig:2.1}, \ref{fig:2.2} and \ref{fig:2.4}).
+For $l_{\infty}$, it requires $T'>15$ for $\Proof(\Adv, f_{W_T})$ to be able to pass the verification  (\fig~\ref{fig:2.3}).
+On the other hand, when $T'>30$, the generation time of $\Proof(\Adv, f_{W_T})$ is larger than that of $\Proof(\Prov, f_{W_T})$ (\fig~\ref{fig:2.5}).
+That means $15<T'<30$ would be the condition for Attack II to be successful on CIFAR-10.
+Notice that the spoof size is always smaller than the proof size.
+
+
+\fig~\ref{fig:Attack2_cifar100_eps} shows the evaluation results of Attack II on CIFAR-100.
+When $T'>40$, the normalized reproduction errors introduced by $\Proof(\Adv, f_{W_T})$ are smaller than those introduced by $\Proof(\Prov, f_{W_T})$ in all 4 distances.
+On the other hand, it requires $T'<50$ for the spoof generation time to be smaller than the baseline.
+Therefore, $40<T'<50$ is the condition for Attack II to be successful on CIFAR-100.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Attack III}
+
+
+The evaluation results of Attack III on CIFAR-10 are shown in \fig~\ref{fig:Attack3_cifar10_eps}. 
+The results show that the normalized reproduction errors introduced by $\Proof(\Adv, f_{W_T})$ are always smaller than those introduced by $\Proof(\Prov, f_{W_T})$ in all 4 distances when $T'>25$ (\fig~\ref{fig:4.1}-\ref{fig:4.4}).
+In terms of spoof generation time, the number of steps $T'$ can be as large as 300 (\fig~\ref{fig:4.5}).
+That means the condition for Attack III to be successful on CIFAR-100 is $25<T'<300$.
+
+
+\fig~\ref{fig:Attack3_cifar100_eps} shows the evaluation results of Attack III on CIFAR-100. 
+We set $k=100$ and batch size as 2, and evaluate the attack with different number of steps ($T'$).
+The results show that the normalized reproduction errors introduced by $\Proof(\Adv, f_{W_T})$ are always smaller than those introduced by $\Proof(\Prov, f_{W_T})$ in $l_{\infty}$ and $cos$ (\fig~\ref{fig:5.3} and \fig~\ref{fig:5.4}).
+The cross-over point is around 100 in both $l_1$ and $l_2$: when $T'>100$, the normalized reproduction errors introduced by $\Proof(\Adv, f_{W_T})$ are smaller than those introduced by $\Proof(\Prov, f_{W_T})$ in $l_1$ and $l_2$ (\fig~\ref{fig:5.1} and \fig~\ref{fig:5.2}).
+Same as on CIFAR-10, the spoof generation time is smaller than the proof generation time when $T'<300$.
+Therefore, the condition for Attack III to succeed in CIFAR-100 is $100<T'<300$.
+
+
+
+In~\cite{PoL}, the authors suggest to check model performance periodically.
+Therefore, we need to make sure that the performance of the intermediate models generated by our attacks follow the same tend as those in  $\Proof(\Prov, f_{W_T})$.
+We can achieve this by adjusting the extent of perturbations on $W_T$ (Line 7 in Algorithm~\ref{alg:attack3}).
+Specifically, we can add a large extent of perturbations when $T'$ is small and add a small extent of perturbations when $T'$ is large.
+\fig~\ref{fig:intermediate_model_accuracyl} shows the model performance in both CIFAR-10 and CIFAR-100.
+The $x$-axis presents the progress of training. 
+For example when $x=0.2$, the corresponding $y$ represents the $0.2\cdot T$-th model performance in $\Proof(\Prov, f_{W_T})$ and $0.2\cdot T'$-th model performance $\Proof(\Adv, f_{W_T})$.
+It shows that the model performance in $\Proof(\Prov, f_{W_T})$ and $\Proof(\Adv, f_{W_T})$ are in similar trends.
+
+
+\fig~\ref{fig:ad_exp} shows some randomly picked images before and after running our attacks.
+The differences are invisible.
+
+\subsection{Summary}
+
+In summary, both Attack~II and Attack~III can successfully spoof a PoL when $T'$ is large enough.
+We further remark that our attacks are slow mostly because they are not well-engineered as normal training, e.g., the optimizers in Tensorflow~\cite{Abadi2016tensorflow} and Pytorch~\cite{Paszke2019PyTorch} adopt a bunch of tricks to accelerate training.
+Therefore, the number of steps $T'$ could be potentially increased, making our attack more imperceptible.
+
+%
+ 
+\section{Countermeasures}
+\label{sec:discuss}
+
+In this section, we provide some potential countermeasures for our attacks.
+However, even with these countermeasures, we still cannot guarantee a PoL mechanism is secure without a formal proof.
+Indeed, these countermeasures have their own limitations and can be broken.
+
+\Paragraph{Model distance.}
+Recall that Attack~II and Attack~III require:
+\begin{center}
+    $d(W_t, W_{t-k}) \leq \delta$.
+\end{center}
+However, in our experiments, we found that such distances in real training are usually larger. 
+Therefore, $\Verif$ could set a bound for the distance between each $(W_t, W_{t-k})$.
+Notice that this countermeasure is invalid for Attack I.
+
+
+
+
+
+
+\Paragraph{Integrity of training dataset.}
+In~\cite{PoL}, it is assumed that $\Adv$ has full access to the training dataset $D$ and can modify it. 
+If $\Adv$ has full access to $D$, most probably $D$ is a public dataset. 
+Then, $\Verif$ can easily verify the integrity of $D$ so that $\Adv$ cannot modify it.
+If $D$ is a private dataset, then $\Adv$ can neither access nor modify it.
+That means we could change the threat model of PoL to make the attack more difficult.
+However, $\Adv$ could still spoof $W_T$ using a totally different dataset $D'$ and claim that $D'$ is the real training dataset of $W_T$. 
+
+
+
+
+
+\Paragraph{Checkpointing interval and batch size.}
+Recall that Attack~III for CIFAR-100 has to use either a small $k$ or a small batch size due to memory limitation. 
+Then, $\Verif$ could set bounds for both $k$ and the batch size.
+However, this countermeasure is invalid for either Attack~I or Attack~II.
+When $\Adv$ has a large GPU memory, it is invalid for Attack~III either.
+
+
+
+\Paragraph{Number of training steps.}
+Recall that Attack~II requires $T'<30$ to succeed and Attack~III requires $T'<300$. 
+Then, $\Verif$ could set a bound for the number of training steps. 
+However, as we mentioned, our attacks are slow mostly because they are not well-engineered as normal training.
+We could potentially accelerate our attacks using the tricks adopted in the state-of-the-art optimizers.
+Then, bounding the number of of training steps will be no longer useful.
+Furthermore, this countermeasure is invalid for Attack~I.
+
+
+\Paragraph{Selection of threshold.}
+As we observed in our experiments, $\varepsilon_{\mathit{repr}}$ in the early training stage is usually larger than that in the later stage, because the model converges in the later stage. 
+On the other hand, $\varepsilon_{\mathit{repr}}$ remains in the same level in our spoof.
+Then, it is unreasonable for $\Verif$ to set a single verification threshold for the whole training stage.
+A more sophisticated way would be dynamically choosing the verification thresholds according to the stage of model training:  choose larger thresholds for the early stage, and choose smaller thresholds for the later stage.
+In that case, it will be more challenging for our spoof to pass the verification.
+However, we can also set $d(W_t, W_{t-k})$ closer in the later stage to circumvent this countermeasure. 
+\section{Related Work}
+\label{sec:related}
+
+\subsection{Adversarial examples}
+
+When first discovered in 2013~\cite{intri2013}, adversarial examples are images designed intentionally to cause deep neural networks to make false predictions. 
+Such adversarial examples look almost the same as  original images, thus they show vulnerabilities of deep neural networks~\cite{goodfellow2014explaining}. 
+Since then, it becomes a popular research topic and has been explored extensively in both attacks~\cite{dong2018boosting, su2019one} and defences~\cite{papernot2016distillation,buckman2018thermometer,Bhagoji2018Enhancing,zheng2016improving,wang2017learning,luo2016foveationbased}. 
+In particular, adversarial examples have been found in many domains other than images, such as autonomous driving~\cite{lu2017adversarial,lu2017need}, malware detection~\cite{Grosse2017adversarial,Rosenberg2018Generic}, authentication~\cite{zhou2018invisible} and so on.
+It becomes a major concern when considering safety issues.
+
+
+
+
+
+
+
+Roughly speaking, adversarial examples are generated by solving:
+$$\mathbf{R}=\mathop{\arg\min}_{\mathbf{R}}L(f_{W}(\mathbf{X}+\mathbf{R}),\mathbf{y}')+\alpha||\mathbf{R}||,$$
+where $\mathbf{y}'$ is a label that is different from the real label $\mathbf{y}$ for $\mathbf{X}$.
+Then, the noise $\mathbf{R}$ can fool the model to predict a wrong label (by minimizing the loss function) and pose little influence on the original instance $\mathbf{X}$.
+
+
+
+
+
+Recall that the objective of Attack~II and Attack~III is to minimize the gradients computed by ``adversarial examples''. 
+Therefore, it can be formulated as: $$\mathbf{R}=\mathop{\arg\min}_{\mathbf{R}}L(f_{W}(\mathbf{X}+\mathbf{R}),\mathbf{y})+\alpha||\mathbf{R}||.$$
+This is identical to the objective of finding an adversarial example.
+An adversarial example aims to fool the model whereas our attacks aim to update a model to itself.
+Nevertheless, they end up at the same point, which explains the effectiveness of Attack II and Attack III.
+
+
+
+
+
+
+
+Goodfellow et al.~\cite{goodfellow2014explaining} proposed a one-step method called fast gradient sign method (FGSM) to generate adversarial examples:
+$$\XX=\XX + \epsilon sign(\triangledown_{\XX} L(f_W(\mathbf{X}),\mathbf{y})),$$
+where $\epsilon sign(\triangledown_{\XX} L(f_W(\mathbf{X}),\mathbf{y}))$ is the max-norm constrained perturbation and it can be computed by one step back-propagation.
+Therefore, FGSM is much more efficient. 
+
+
+
+
+
+Su et al.~\cite{su2019one} target a limited scenario where only one pixel can be modified. They use $l_0$ norm as a constraint $||e(\mathbf{x})||_0\leq d$ to modify limited pixels. 
+In their experiments, they choose $d=1$ so that only one pixel can be modified. 
+Then, the objective function is: $$\mathop{\arg\max}_{e(\mathbf{\XX})}L(f(\mathbf{\XX}+e(\mathbf{\XX})),\mathbf{y}).$$ 
+Their work show that more than 60$\%$ of the CIFAR-10 images can be perturbed by their method.
+
+We leave it as future work to estimate the effectiveness of these works in our settings.
+
+\subsection{Deep Leakage from Gradient}
+
+In federated learning~\cite{mcmahan17a, bonawitz2019towards, li2020federated, kairouz2019advances}), 
+it was widely believed that shared gradients will not leak information about the training data.
+However, Zhu et al.~\cite{zhu2020deepleakage} proposed ``Deep Leakage from Gradients'' (DLG), where the training data can be recovered through gradients matching.
+Specifically, after receiving gradients from another worker, the adversary feeds a pair of randomly initialized dummy instance $(X, y)$ into the model, and obtains the dummy gradients via back-propagation.
+Then, they update the dummy instance with an objective of minimizing the distance between the dummy gradients and the received gradients:
+\begin{equation*}
+    \begin{aligned}
+  \XX, y &= \mathop{\arg\min}_{\XX, y}||\triangledown W'-\triangledown W||^2\\&= \mathop{\arg\min}_{\XX, y}||\frac{\partial L(f_W(\XX), y)}{\partial W}-\triangledown W||^2
+    \end{aligned}
+\end{equation*}
+After a certain number of steps, the dummy instance can be recovered to the training data of the worker who sent the gradients. 
+
+
+Our attacks were largely inspired by DLG: 
+an instance can be updated so that its output gradients can match the given gradients.
+The difference between DLG and our work is that DLG aims to recover the training data from the gradients, whereas we want to create a perturbation on a real instance to generate specific gradients.
+
+\subsection{Model stealing}
+
+One goal of PoL is to resolve the dispute caused by model stealing attacks, 
+which allow adversaries to learn a new model $\hat{f}$ that is close to the target model $f$.
+Tramer et al.~\cite{tramer2016stealing} proposed the first model stealing attack that leverages the outputs from the target model.
+They demonstrate that for a large variety of machine learning models, their  model extraction attacks can successfully  ``steal'' the weights of the target model.
+Orekondy et al.~\cite{orekondy2019knockoff} proposed a two-step model stealing attack.
+By querying data and using the output returned by the target model, they train a ``knockoff'' model $F_A$ to approximate the target model. 
+They show that their ``knockoff'' model achieves about 80$\%$ accuracy of the target model.
+
+Besides model weights, hyperparameters are also important for a machine learning model.
+Wang et al.~\cite{wang2018stealing} came up with an attack for stealing  hyperparameters. 
+Given access to training data, objective function and model weights, 
+they use a linear square method to solve the overdetermined linear system of the hyperparameters.
+There are also some work to attack the architecture and the optimization process of the target model~\cite{oh2019towards} under the assumption that adversary can only access to the query inputs and outputs. 
+
+
+\subsection{Byzantine workers}
+
+Another goal of PoL is to prevent Byzantine workers from conducting denial-of-service attacks in federated learning. 
+A Byzantine worker can manipulate its gradients to prevent the convergence of the global model.
+Blanchard et al.~\cite{NIPS2017_f4b9ec30} prove that no aggregation rule based on linear combination (e.g., average) of the updates can tolerate a single Byzantine participant.
+As a result, most researchers working on this direction are exploring alternative aggregation rules.
+For example, in the Krum aggregation rule~\cite{NIPS2017_f4b9ec30}, pairwise distances are calculated between all inputs submitted in an iteration, and picks the one with the lowest sum as the aggregated gradients.
+Unfortunately, this line of work assumes that participants' training data are i.i.d., i.e., following the same distribution. 
+
+
+\subsection{Verifiable computation}
+
+In general, verifiable computation allows a delegator to outsource the execution of a complex function to some workers, and the delegator verifies the correctness of the returned result while performing less work than executing the function itself. 
+A verifiable computation system for an NP relationship $R$ is a protocol between a computationally bounded prover and a verifier. 
+At the end of the protocol, the verifier is convinced by prover that there exists a witness $w$ such that $(x; w) \in R$ for some input $x$. 
+The correctness property of verifiable computation guarantees that an honest prover can always pass the verification, and the soundness guarantees that a cheating prover will be caught with overwhelming probability. 
+There are many solutions for verifiable computation such as SNARK~\cite{Pinocchio,libsnark}, STARK~\cite{libstark} etc.
+We refer to~\cite{walfish2015verifying} for a complete survey.
+
+PoL is definitely a problem of verifiable computation. We leave it as future work to investigate how to design a secure and efficient PoL mechanism using verifiable computation.  
+
+\section{Conclusion}
+\label{sec:conc}
+
+In this paper, we show that a recently proposed PoL mechanism is vulnerable to ``adversarial examples''.
+Namely, in a similar way as generating adversarial examples, we could generate a PoL spoof  with significantly less cost than generating a proof by the prover.
+We validated our attacks by conducting  experiments extensively. 
+In future work, we will explore more effective attacks. 
+We will also design a PoL mechanism that is both secure and efficient.
+
+
+
+
+%
+ 
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+
+
+
+
+
+
+
+
+\end{document}
